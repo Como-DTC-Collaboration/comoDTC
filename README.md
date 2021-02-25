@@ -4,7 +4,8 @@ comoDTC
 =======
 
 <!-- badges: start -->
-<!-- badges: end -->
+[![R-CMD-check](https://github.com/ben18785/comoDTC/workflows/R-CMD-check/badge.svg)](https://github.com/ben18785/comoDTC/actions) <!-- badges: end -->
+
 The goal of comoDTC is to provide an R package version of <https://github.com/bogaotory/comoOdeCpp>
 
 Installation
