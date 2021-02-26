@@ -4,12 +4,7 @@
 \name{mort_sever_default}
 \alias{mort_sever_default}
 \title{Prices of 50,000 round cut diamonds.}
-\format{A data frame with 53940 rows and 10 variables:
-\describe{
-\item{price}{price, in US dollars}
-\item{carat}{weight of the diamond, in carats}
-...
-}}
+\format{A data frame with 53940 rows and 10 variables:}
 \source{
 \url{http://www.diamondse.info/}
 }
