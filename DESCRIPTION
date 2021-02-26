@@ -14,7 +14,9 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.0.2
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 Imports: 
     deSolve,
@@ -23,3 +25,4 @@ Imports:
     stringr
 Depends: 
     R (>= 2.10)
+VignetteBuilder: knitr
