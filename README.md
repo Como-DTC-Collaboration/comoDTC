@@ -40,9 +40,9 @@ If you've not created an R package before and would like to contribute, we'd rec
 
 We ask that contributions to comoDTC follow the following workflow:
 
-1.  create an issue that describes the change / addition to the code base you'd like to make
+1.  search existing issues to check whether one exists that describes the change / addition to the code base you'd like to make; if not, make a new issue
 2.  create a new branch that is named `i[issue number]-[approximate issue name]`. For example, the "Create contributing docs issue" that was the basis for this change was issue \#8, so the branch is named `i8-contributing-docs`
-3.  run tests of code (see below) on your machine and check that they pass
+3.  run tests of code (see below) on your machine and check that they pass, and push your changes to repo
 4.  create a pull request which describes this contribution and refers back to the original issue
 5.  check that pull request passes github workflow tests
 6.  assign at least one reviewer
