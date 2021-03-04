@@ -43,13 +43,16 @@ We ask that contributions to comoDTC follow the following workflow:
 1.  search existing issues to check whether one exists that describes the change / addition to the code base you'd like to make; if not, make a new issue
 2.  clone the repo and create a new branch that is named `i[issue number]-[approximate issue name]`. For example, the "Create contributing docs issue" that was the basis for this change was issue \#8, so the branch is named `i8-contributing-docs`
 3.  make local changes to your branch
-4.  run tests of code (see below) on your machine and check that they pass, and push your changes to repo
-5.  create a pull request which describes this contribution and refers back to the original issue
-6.  check that pull request passes github workflow tests
-7.  assign at least one reviewer
-8.  respond to reviewer comments and continue to work on code until it passes reviewer tests
-9.  merge branch into master
-10. close original issue referring to the pull request that merged into master
+4. pre-commit checks:
+    - [No style issues](https://style.tidyverse.org/): `lintr::lint_package()`
+    - All tests pass(see below): ``devtools::check()``
+5. push your changes to the repo.
+6.  create a pull request which describes this contribution and refers back to the original issue
+7.  check that pull request passes github workflow tests
+8.  assign at least one reviewer
+9.  respond to reviewer comments and continue to work on code until it passes reviewer tests
+10.  merge branch into master
+11. close original issue referring to the pull request that merged into master
 
 ### Code tests in comoDTC
 
