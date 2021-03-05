@@ -20,8 +20,8 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v1
 
-      - name: Install stringi
-        run: sudo apt-get install r-cran-stringi
+      - name: Install libicu
+        run: sudo apt-get install libicu66
 
       - name: Query dependencies
         run: |
