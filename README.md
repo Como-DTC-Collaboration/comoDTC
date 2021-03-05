@@ -1,7 +1,3 @@
----
-output: github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
@@ -10,10 +6,9 @@ output: github_document
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/ben18785/comoDTC/workflows/R-CMD-check/badge.svg)](https://github.com/ben18785/comoDTC/actions)
-[![Codecov test coverage](https://codecov.io/gh/Como-DTC-Collaboration/comoDTC/branch/master/graph/badge.svg)](https://codecov.io/gh/Como-DTC-Collaboration/comoDTC?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/Como-DTC-Collaboration/comoDTC/branch/master/graph/badge.svg)](https://codecov.io/gh/Como-DTC-Collaboration/comoDTC?branch=master).
 <!-- badges: end -->
-
-The goal of comoDTC is to provide an R package version of https://github.com/bogaotory/comoOdeCpp
+The goal of comoDTC is to provide an R package version of <https://github.com/bogaotory/comoOdeCpp>
 
 ## Installation
 
@@ -77,7 +72,7 @@ All of these tests can be run locally using `devtools::check()`. It is often use
 To make the package easier to read for users and the large number of participants we are using the style guidelines of [Hadley Wickham's The tidyverse style guide](https://style.tidyverse.org/). 
 
 Compliants with this style guide can be checked for using the `lintr` package (installed via `install.packages('lintr')`) as follows:
--The R code in a file may be analysed using `lintr::lint(file_path)`
--The R code in a directory may be analysed using `lintr::lint_dir(dir_path)`
--The R code in an entire package may be analysed using `lintr::lint_package(pkg_path)` or `lintr::lint_package()` from the open package.
+- The R code in a file may be analysed using `lintr::lint(file_path)`
+- The R code in a directory may be analysed using `lintr::lint_dir(dir_path)`
+- The R code in an entire package may be analysed using `lintr::lint_package(pkg_path)` or `lintr::lint_package()` from the open package.
 As with tests, it can be useful to lint individual files and directories worked on as this will run faster.
