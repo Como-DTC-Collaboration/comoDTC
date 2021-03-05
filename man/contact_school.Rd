@@ -4,7 +4,9 @@
 \name{contact_school}
 \alias{contact_school}
 \title{Prices of 50,000 round cut diamonds.}
-\format{A data frame with 53940 rows and 10 variables:}
+\format{
+A data frame with 53940 rows and 10 variables:
+}
 \source{
 \url{http://www.diamondse.info/}
 }
