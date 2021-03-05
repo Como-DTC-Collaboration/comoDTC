@@ -12,7 +12,7 @@ name: lint
 
 jobs:
   lint:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -23,6 +23,7 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
+          install.packages('stringi', type='source')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
