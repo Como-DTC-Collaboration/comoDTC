@@ -20,10 +20,12 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v1
 
+      - name: Install stringi
+        run: sudo apt-get install r-cran-stringi
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
-          install.packages('stringi', type='source')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
