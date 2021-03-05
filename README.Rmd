@@ -82,7 +82,7 @@ All of these tests can be run locally using `devtools::check()`. It is often use
 ##### Style and Linting
 To make the package easier to read for users and the large number of participants we are using the style guidelines of [Hadley Wickham's The tidyverse style guide](https://style.tidyverse.org/). 
 
-Compliants with this style guide can be checked for using the `lintr` package (installed via `install.packages('lintr')`) as follows:
+Compliance with this style guide can be checked for using the `lintr` package (installed via `install.packages('lintr')`) as follows:
 - The R code in a file may be analysed using `lintr::lint(file_path)`
 - The R code in a directory may be analysed using `lintr::lint_dir(dir_path)`
 - The R code in an entire package may be analysed using `lintr::lint_package(pkg_path)` or `lintr::lint_package()` from the open package.
