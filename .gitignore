@@ -4,3 +4,10 @@
 .httr-oauth
 .DS_Store
 inst/doc
+
+### VisualStudioCode ###
+.vscode/*
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+**/.history
