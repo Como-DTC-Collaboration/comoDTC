@@ -17,7 +17,7 @@ contact matrix for the work place.}
 
 \item{n_5yr_agegroups_popstruc}{Number of 5 year age groups in the population
 structure data. these ranges start with 0-4yrs and continue with 5 year gaps
-up until the last catergory of 100+ years old}
+up until the last catergory of 100+ years old.}
 }
 \value{
 A square contact matrix for the specified country with dimension
@@ -32,8 +32,4 @@ population catergories provided by the population data
 year intervals). This is done by repeating entries in the contact data
 corresponding to the oldest group (75-80 years) for the last population data
 age ranges (i.e. all 5 year catergories for 80+ years).
-}
-\examples{
-get_contact_matrix("United Kingdom of Great Britain", contact_home, 21)
-
 }

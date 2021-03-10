@@ -21,8 +21,6 @@
 #'
 #' @return A square contact matrix for the specified country with dimension
 #' equal to \code{n_5yr_agegroups_popstruc}.
-#' @examples
-#' get_contact_matrix("United Kingdom of Great Britain", contact_home, 21)
 #'
 get_contact_matrix <- function(country, contact_type
                                , n_5yr_agegroups_popstruc) {
