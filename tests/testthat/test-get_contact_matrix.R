@@ -1,3 +1,4 @@
+#unit testing for the get_contact_matrix.R function
 test_that("get_contact_matrix produces expected 21x21 output", {
 
   #run the function with Great Britain and contact_home
