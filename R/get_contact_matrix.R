@@ -6,8 +6,8 @@ get_contact_matrix <- function(country, contact_type, n_agegroups_popstruc){
   # be loaded. Naming conventions for countries must be in line with those used
   # in input excel file
 
-  #contact_type: string representing the type of contact represented in the
-  #matrix to be generated. e.g. contact_work gives contact matrix for the work
+  #contact_type: a loaded matrix representing the contact between different age groups
+  # in a given social setting e.g. contact_work gives contact matrix for the work
   #place
 
   #
