@@ -3,7 +3,7 @@
 #' Function that loads and processes a contact matrix for use in the CoMo model
 #' ode solver. This function carries out a dimension change on the input
 #' contact matrix (from 16x16 to 21x21) to allow for the larger number of
-#' population catergories provided by the population data
+#' population categories provided by the population data
 #' (0-100+ years in 5 year intervals) compared to the contact data (0-80 in 5
 #' year intervals). This is done by repeating entries in the contact data
 #' corresponding to the oldest group (75-80 years) for the last population data
