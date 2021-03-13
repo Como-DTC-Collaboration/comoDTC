@@ -17,7 +17,7 @@
 #' contact matrix for the work place.
 #' @param n_5yr_agegroups_popstruc Number of 5 year age groups in the population
 #'  structure data. these ranges start with 0-4yrs and continue with 5 year gaps
-#'  up until the last catergory of 100+ years old.
+#'  up until the last category of 100+ years old.
 #'
 #' @return A square contact matrix for the specified country with dimension
 #' equal to \code{n_5yr_agegroups_popstruc}.
