@@ -12,18 +12,19 @@
 #' @param country String representing the country for which the contact matrix
 #' will be created. Naming conventions for countries must be in line with those
 #' used in input excel file.
-#' @param contact_type A loaded 16x16 matrix representing the contact between
-#' different age groups in a given social setting e.g. contact_work gives
-#' contact matrix for the work place.
+#' @param contact_type A named list of 16x16 matrices. Names are countries for
+#' which contact matrices are available. Each contact matrix represents the
+#' contact between different age groups in a given social setting e.g.
+#' contact_work gives contact matrix for the work place.
 #' @param n_5yr_agegroups_popstruc Number of 5 year age groups in the population
 #'  structure data. these ranges start with 0-4yrs and continue with 5 year gaps
-#'  up until the last category of 100+ years old.
+#'  up until the last category of 100+ years old. Default value set to 21.
 #'
 #' @return A square contact matrix for the specified country with dimension
 #' equal to \code{n_5yr_agegroups_popstruc}.
 #'
 get_contact_matrix <- function(country, contact_type
-                               , n_5yr_agegroups_popstruc) {
+                               , n_5yr_agegroups_popstruc = 21) {
   #choose contact matrix for given country
   c <- contact_type[[country]] %>% as.matrix()
 
