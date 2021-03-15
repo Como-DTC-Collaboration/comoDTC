@@ -7,7 +7,7 @@
 #' (0-100+ years in 5 year intervals) compared to the contact data (0-80 in 5
 #' year intervals). This is done by repeating entries in the contact data
 #' corresponding to the oldest group (75-80 years) for the last population data
-#' age ranges (i.e. all 5 year catergories for 80+ years).
+#' age ranges (i.e. all 5 year categories for 80+ years).
 #'
 #' @param country String representing the country for which the contact matrix
 #' will be created. Naming conventions for countries must be in line with those
