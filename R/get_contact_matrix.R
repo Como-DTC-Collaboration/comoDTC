@@ -32,6 +32,14 @@ get_contact_matrix <- function(country, contact_type
   contact <- matrix(0, nrow = n_5yr_agegroups_popstruc,
                     ncol = n_5yr_agegroups_popstruc)
 
+  #name dimensions of the matrix with age ranges defined in population data
+  colnames(contact) <- c("0-4", "5-9", "10-14", "15-19", "20-24", "25-29",
+                         "30-34", "35-39", "40-44", "45-49", "50-54", "55-59",
+                         "60-64", "65-69", "70-74", "75-79", "80-84", "85-89",
+                         "90-94", "95-99", "100+")
+
+  rownames(contact) <- colnames(contact)
+
   #loop over dimensions of contact, assign the elements of contact
   #corresponding to the first 16 age groups to be the corresponding elements of
   #the matrix c. assign the elements in the last 5 age groups of contact

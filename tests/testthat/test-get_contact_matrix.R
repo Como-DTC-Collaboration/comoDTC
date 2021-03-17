@@ -23,6 +23,7 @@ test_that("get_contact_matrix copies contact entries for 75-80 years category
 
   #loop over entries 16:21 of output matrix, test whether these are equal to
   #entry 16.
+  print(home_matrix)
   for (i in 16:21) {
   expect_equal(home_matrix[i, ], home_matrix[16, ])
   expect_equal(home_matrix[, i], home_matrix[, 16])
