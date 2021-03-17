@@ -17,7 +17,7 @@
 #' contact between different age groups in a given social setting e.g.
 #' contact_work gives contact matrix for the work place.
 #' @param n_5yr_agegroups_popstruc Number of 5 year age groups in the population
-#'  structure data. these ranges start with 0-4yrs and continue with 5 year gaps
+#'  structure data. These ranges start with 0-4yrs and continue with 5 year gaps
 #'  up until the last category of 100+ years old. Default value set to 21.
 #'
 #' @return A square contact matrix for the specified country with dimension
