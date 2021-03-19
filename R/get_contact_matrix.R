@@ -14,8 +14,11 @@
 #' used in input excel file.
 #' @param contact_type A named list of 16x16 matrices. Names are countries for
 #' which contact matrices are available. Each contact matrix represents the
-#' contact between different age groups in a given social setting e.g.
-#' contact_work gives contact matrix for the work place.
+#' contact between different respondent's age groups (rows) with age groups of
+#' people they come in contact with (column) in a given social setting e.g.
+#' contact_work gives a contact matrix for the work place where rows represent
+#' age group of people at risk and columns represent the age groups of people at
+#' work with whom they have a contact.
 #' @param n_5yr_agegroups_popstruc Number of 5 year age groups in the population
 #'  structure data. These ranges start with 0-4yrs and continue with 5 year gaps
 #'  up until the last category of 100+ years old. Default value set to 21.
