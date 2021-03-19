@@ -16,10 +16,11 @@ contact_home
 \description{
 A list of 152 16x16 asymmetrical contact matrices, one for each country,
 describing which age groups have contact with which other age groups AT HOME.
-The units of entries are the average number of contacts with a person in that
-age group in a day. The columns are the age groups 0-5 (X1), 5-10 (X2),
-10-15 (X3), and continuing with 5 year gaps up to 80 years old.
-The rows are the age group of the contact, where row 1 is 0-5 year olds,
-row 2 is 5-10 year olds, etc. up to 80 year olds.
+The units of entries are the average number of contacts with a person in
+that age group in a day. The top row is individuals in the age group 0-5
+years, the second row is individuals in the age group 5-10 years, and so
+on torow 16 which is individuals aged 75-80. The columns represent the
+people they come into contact with, where column 1 is the age groups 0-5
+(X1), column to is the age group 5-10 (X2), and so to column 16 (ages 75-80).
 }
 \keyword{datasets}
