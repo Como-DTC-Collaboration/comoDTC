@@ -11,18 +11,16 @@
 #'
 #' @return name of the excel file that contains the country specific data.
 create_excel <- function(country) {
-  # need XLConnect package for this function
-  require(XLConnect)
-  library(XLConnect)
   # check of argument is correct
   if (missing(country) || !any(countries_demog == country)) {
     print("Country not specified, or not recognized. Using United Kingdom.")
     country <- "United Kingdom"
   }
   # copy template file and load copy to be edited
-  excel_name <- paste("../data/Data_", country, "_", Sys.Date(), ".xlsx", sep = "")
+  excel_name <- paste("../data/Data_", country, "_", Sys.Date(), ".xlsx",
+                      sep = "")
   file.copy("../data/Template_CoMo_CountryData_temp.xlsx", excel_name)
-  wb <- loadWorkbook(excel_name)
+  wb <- XLConnect::loadWorkbook(excel_name)
 
   # grab country specific date for cases and population, reformat date
   cases_country <- cases[which(cases$country == country), 1:3]
@@ -30,14 +28,14 @@ create_excel <- function(country) {
   pop_country <- population[which(population$country == country), 3:5]
 
   # write data to excel file, DON'T CHANGE FORMATTING
-  setStyleAction(wb, XLC$STYLE_ACTION.NONE)
-  writeWorksheet(wb, data = cases_country, sheet = "Cases",
+  XLConnect::setStyleAction(wb, XLC$STYLE_ACTION.NONE)
+  XLConnect::writeWorksheet(wb, data = cases_country, sheet = "Cases",
                        startRow = 2, startCol = 1, header = FALSE)
-  writeWorksheet(wb, data = pop_country, sheet = "Population",
+  XLConnect::writeWorksheet(wb, data = pop_country, sheet = "Population",
                        startRow = 2, startCol = 2, header = FALSE)
 
   # save edited excel sheet
-  saveWorkbook(wb)
+  XLConnect::saveWorkbook(wb)
 
   # return name of country-specific excel sheet for further use.
   return(excel_name)
