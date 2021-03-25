@@ -17,9 +17,9 @@ create_excel <- function(country) {
     country <- "United Kingdom"
   }
   # copy template file and load copy to be edited
-  excel_name <- paste("../data/Data_", country, "_", Sys.Date(), ".xlsx",
+  excel_name <- paste("../inst/extdata/Data_", country, "_", Sys.Date(), ".xlsx",
                       sep = "")
-  file.copy("../data/Template_CoMo_CountryData_temp.xlsx", excel_name)
+  file.copy("../inst/extdata/Template_CoMo_CountryData_temp.xlsx", excel_name)
   wb <- XLConnect::loadWorkbook(excel_name)
 
   # grab country specific date for cases and population, reformat date
@@ -39,4 +39,7 @@ create_excel <- function(country) {
 
   # return name of country-specific excel sheet for further use.
   return(excel_name)
-  }
+}
+
+#test
+create_excel("Burundi")
