@@ -40,6 +40,3 @@ create_excel <- function(country) {
   # return name of country-specific excel sheet for further use.
   return(excel_name)
 }
-
-#test
-create_excel("Burundi")
