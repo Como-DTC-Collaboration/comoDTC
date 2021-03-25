@@ -24,7 +24,8 @@ Imports:
     dplyr,
     readxl,
     stringr,
-    stringi
+    stringi,
+    XLConnect
 Depends:
     R (>= 2.10)
 VignetteBuilder: knitr
