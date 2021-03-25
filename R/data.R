@@ -73,6 +73,7 @@
 #' @format Dataframe with 5 columns, number of rows will differ per update.
 #'
 #' @source \url{https://www.ecdc.europa.eu/en/covid-19/data}
+"cases"
 
 #' population
 #'
@@ -86,9 +87,11 @@
 #' @format Dataframe with 5 columns and 4221 rows.
 #'
 #' @source \url{https://population.un.org/wpp/Download/Standard/Population/}
+"population"
 
 #' countries_demog
 #'
 #' A list of 201 countries (chr) that the model can take, in alphabetical order.
 #'
 #' @format list of chr
+"countries_demog"
