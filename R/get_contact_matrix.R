@@ -1,7 +1,7 @@
 #' Create a contact matrix
 #'
 #' Function that loads and processes a contact matrix for use in the CoMo model
-#' ode solver. This function carries out a dimension change on the input
+#' ODE solver. This function carries out a dimension change on the input
 #' contact matrix (from 16x16 to 21x21) to allow for the larger number of
 #' population categories provided by the population data
 #' (0-100+ years in 5 year intervals) compared to the contact data (0-80 in 5
@@ -12,13 +12,11 @@
 #' @param country String representing the country for which the contact matrix
 #' will be created. Naming conventions for countries must be in line with those
 #' used in input excel file.
-#' @param contact_type A named list of 16x16 matrices. Names are countries for
-#' which contact matrices are available. Each contact matrix represents the
-#' contact between different respondent's age groups (rows) with age groups of
+#' @param contact_type A named list of 16x16 matrices. Names represent countries
+#' where contact matrices are available. Each contact matrix represents the
+#' contact between different respondents' age groups (rows) with age groups of
 #' people they come in contact with (column) in a given social setting e.g.
-#' contact_work gives a contact matrix for the work place where rows represent
-#' age group of people at risk and columns represent the age groups of people at
-#' work with whom they have a contact.
+#' at work or at school.
 #' @param n_5yr_agegroups_popstruc Number of 5 year age groups in the population
 #'  structure data. These ranges start with 0-4yrs and continue with 5 year gaps
 #'  up until the last category of 100+ years old. Default value set to 21.
