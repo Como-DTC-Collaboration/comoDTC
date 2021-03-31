@@ -32,7 +32,6 @@ setClass("age_model",
 #S0, I0, R0, beta, kappa, gamma: chosen values for each of the parameters
 #N.B. this is not an S4 method, when I tried to use such a method I was unable
 #to assign slots of the object successfully.
-
 #function returns the age_model object with parameters slot assigned
 set_parameters <- function(object, S0, I0, R0, beta, kappa, gamma){
   #create list of parameter values
