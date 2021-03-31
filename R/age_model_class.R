@@ -72,7 +72,8 @@ setGeneric(name = "simulate",
 #set class specific method to numerically solve odes
 setMethod(f = "simulate", "age_model", function(object, parameters,
                                                        times) {
-
+  tstart =
+  tend =
   #call RHS function to then use as input for the ode solver
   RHS = right_hand_side(object, t, y, c)
 
