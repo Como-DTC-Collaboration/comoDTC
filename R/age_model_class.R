@@ -21,22 +21,19 @@ setClass("age_model",
          prototype = list(
            name = NA_character_,
            output_names = list('S', 'I', 'R', 'Incidence'),
-           parameter_names = list('S0', 'I0', 'R0', 'alpha', 'beta', 'gamma'),
+           parameter_names = list('S0', 'I0', 'R0', 'beta', 'kappa', 'gamma'),
            n_age_categories = NA_real_
 
          )
 )
 
-#Generic for function for setting the parameters of the model instance
-#setGeneric(name = "set_parameters",
-#           def = function(object, S0, I0, R0, beta, kappa, gamma){
-#             standardGeneric("set_parameters")
-#           }
-#)
-#set class specific method assigning parameters
-#setMethod(f = "set_parameters", "age_model", function(object, S0, I0, R0,
-#                                                      beta, kappa, gamma) {
+#define function that assigns the parameters of an age_model object
+#inputs are: object - the age model object
+#S0, I0, R0, beta, kappa, gamma: chosen values for each of the parameters
+#N.B. this is not an S4 method, when I tried to use such a method I was unable
+#to assign slots of the object successfully.
 
+#function returns the age_model object with parameters slot assigned
 set_parameters <- function(object, S0, I0, R0, beta, kappa, gamma){
   #create list of parameter values
   params <- list(S0, I0, R0, beta, kappa, gamma)
@@ -51,18 +48,9 @@ set_parameters <- function(object, S0, I0, R0, beta, kappa, gamma){
 }
 
 
-#Generic for function which gives RHS of odes
-setGeneric(name = "right_hand_side",
-           def = function(object, t, y, c){
-             standardGeneric("right_hand_side")
-           }
-)
-#set class specific method for RHS of odes
-setMethod(f = "right_hand_side", "age_model", function(object, t, y, c) {
-  #RHS code here
-})
 
 
+#age_model class specific functions
 #Generic for function which gives RHS of odes
 setGeneric(name = "right_hand_side",
            def = function(object, t, y, c){
