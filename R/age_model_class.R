@@ -41,30 +41,42 @@ setGeneric(
   function(object, S0, I0, R0, a, b){
     standardGeneric("set_parameters")
   })
-
-
 setMethod("get_parameters", "age_model", function(object) object@parameters)
 setMethod(
-    "set_parameters", "age_model",
-    function(object, S0, I0, R0, a, b) {
+  "set_parameters", "age_model",
+  function(object, S0, I0, R0, a, b) {
+    #write error messages
+    if(length(S0) != object@n_age_categories){
+      stop('Wrong number of age groups for initial susceptible compartments.')
+    }
+    if(!is.double(S0)){
+      stop('Initial susceptibles storage format must be a vector.')
+    }
+    if(length(I0) != object@n_age_categories){
+      stop('Wrong number of age groups for initial infective compartments.')
+    }
+    if(!is.double(I0)){
+      stop('Initial infectives storage format must be a vector.')
+    }
+    if(length(R0) != object@n_age_categories){
+      stop('Wrong number of age groups for initial recovered compartments.')
+    }
+    if(!is.double(R0)){
+      stop('Initial recovered storage format must be a vector.')
+    }  
+    if(any(length(a) != 1 | length(b) != 1)){
+      stop('The rates of change between compartments are 1-dimensional.')
+    }
+    
     #create list of parameter values
     params <- list(S0, I0, R0, a, b)
-
-    #raise error if lengths of S0, I0, R0 does not match number of age
-    #categories
-    if(length(S0) != object@n_age_categories) stop('initial S0
-    state dimension does not match number of age categories.')
-    if(length(I0) != object@n_age_categories) stop('initial I0
-    state dimension does not match number of age categories.')
-    if(length(R0) != object@n_age_categories) stop('initial R0
-    state dimension does not match number of age categories.')
-
+  
     #add names to each value
     names(params) = object@parameter_names
-
+  
     #assign the params namelist to the object
     object@parameters <- params
-
+    
     return(object)
   })
 
@@ -80,12 +92,15 @@ setGeneric(name = "simulate",
 setMethod(
   "simulate", "age_model",
   function(object, times) {
+    if(!is.double(times)){
+      stop('Evaluation times of the model storage format must be a vector.')
+    }
     state <- c(S = get_parameters(object)$S0,
                I = get_parameters(object)$I0,
                R = get_parameters(object)$R0)
     parameters <- c(a = get_parameters(object)$a,
                     b = get_parameters(object)$b)
-
+    
     right_hand_side <- function(t, state, parameters) {
       with(
         as.list(c(state, parameters)),
@@ -102,17 +117,16 @@ setMethod(
           list(c(dS, dI, dR))
         })
     }
-
+    
     output <- ode(
       y = state, times = times, func = right_hand_side, parms = parameters)
-
+    
     return(output)
   })
 
 #test case for creating an instance
 my_model <- new("age_model", name = "my_model", n_age_categories = 2)
 
-my_model <- set_parameters(my_model, c(1, 1), c(1, 0, 1), c(0, 0), 1, 0.5)
+my_model <- set_parameters(my_model, c(1, 1), c(1, 0), c(0, 0), 1, 0.5)
 get_parameters(my_model)
 simulate(my_model, seq(0, 10, by = 1))
-
