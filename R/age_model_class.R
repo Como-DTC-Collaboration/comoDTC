@@ -1,5 +1,6 @@
 library(methods)
 library(deSolve)
+library(glue)
 
 #define the age_model class.
 #Slots of this class are as follows:
@@ -45,38 +46,31 @@ setMethod("get_parameters", "age_model", function(object) object@parameters)
 setMethod(
   "set_parameters", "age_model",
   function(object, S0, I0, R0, a, b) {
-    #write error messages
-    if(length(S0) != object@n_age_categories){
-      stop('Wrong number of age groups for initial susceptible compartments.')
+
+    #create list of parameter values
+    params <- list(S0, I0, R0, a, b)
+
+    #add names to each value
+    names(params) = object@parameter_names
+
+    #raise errors if age category dimensions do not match initial state vectors
+    #also raise errors if initial state and parameter values are not doubles
+    for (p in list('S0', 'I0', 'R0')){
+      if(length(params[[p]]) != object@n_age_categories){
+        stop(glue('Wrong number of age groups for {p}
+              compartments.'))}
+      if(!is.double(params[[p]])){
+        stop(glue('{p} storage format must be a vector.'))}
     }
-    if(!is.double(S0)){
-      stop('Initial susceptibles storage format must be a vector.')
-    }
-    if(length(I0) != object@n_age_categories){
-      stop('Wrong number of age groups for initial infective compartments.')
-    }
-    if(!is.double(I0)){
-      stop('Initial infectives storage format must be a vector.')
-    }
-    if(length(R0) != object@n_age_categories){
-      stop('Wrong number of age groups for initial recovered compartments.')
-    }
-    if(!is.double(R0)){
-      stop('Initial recovered storage format must be a vector.')
-    }  
+
+    #check format of parameters a and b
     if(any(length(a) != 1 | length(b) != 1)){
       stop('The rates of change between compartments are 1-dimensional.')
     }
-    
-    #create list of parameter values
-    params <- list(S0, I0, R0, a, b)
-  
-    #add names to each value
-    names(params) = object@parameter_names
-  
-    #assign the params namelist to the object
+
+    #if all above tests are passed, assign the params namelist to the object
     object@parameters <- params
-    
+
     return(object)
   })
 
@@ -95,12 +89,17 @@ setMethod(
     if(!is.double(times)){
       stop('Evaluation times of the model storage format must be a vector.')
     }
+
+    #set initial state vector
     state <- c(S = get_parameters(object)$S0,
                I = get_parameters(object)$I0,
                R = get_parameters(object)$R0)
+
+    #set parameters vector
     parameters <- c(a = get_parameters(object)$a,
                     b = get_parameters(object)$b)
-    
+
+    #function for RHS of ode system
     right_hand_side <- function(t, state, parameters) {
       with(
         as.list(c(state, parameters)),
@@ -117,16 +116,16 @@ setMethod(
           list(c(dS, dI, dR))
         })
     }
-    
+
+    #call ode solver
     output <- ode(
       y = state, times = times, func = right_hand_side, parms = parameters)
-    
+
     return(output)
   })
 
-#test case for creating an instance
+#test case for creating an instance of the age_model class
 my_model <- new("age_model", name = "my_model", n_age_categories = 2)
-
-my_model <- set_parameters(my_model, c(1, 1), c(1, 0), c(0, 0), 1, 0.5)
+my_model <- set_parameters(my_model, c(1, 1), c(1, 0.5), c(0, 0), 1, 0.5)
 get_parameters(my_model)
 simulate(my_model, seq(0, 10, by = 1))
