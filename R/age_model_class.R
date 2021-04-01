@@ -74,10 +74,15 @@ setMethod(
                R = get_parameters(object)$R0)
     parameters <- c(a = get_parameters(object)$a,
                     b = get_parameters(object)$b)
+    
     right_hand_side <- function(t, state, parameters) {
       with(
         as.list(c(state, parameters)),
         {
+          age <- object@n_age_categories
+          S <- state[1:age]
+          I <- state[(age+1):(2*age)]
+          R <- state[(2*age+1):(3*age)]
           # rate of change
           dS <- -a*S*I
           dI <- a*S*I - b*I
@@ -86,6 +91,7 @@ setMethod(
           list(c(dS, dI, dR))
         })
     }
+    
     output <- ode(
       y = state, times = times, func = right_hand_side, parms = parameters)
     
@@ -93,7 +99,7 @@ setMethod(
   })
 
 #test case for creating an instance
-my_model <- new("age_model", name = "my_model", n_age_categories = 20)
+my_model <- new("age_model", name = "my_model", n_age_categories = 2)
 
 my_model <- set_parameters(my_model, c(1, 1), c(1, 0), c(0, 0), 1, 0.5)
 get_parameters(my_model)
