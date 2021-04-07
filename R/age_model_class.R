@@ -22,9 +22,9 @@ setClass("age_model",
          #names
          prototype = list(
            name = NA_character_,
-           output_names = list('S', 'I', 'R', 'Incidence'),
-           parameter_names = list('S0', 'I0', 'R0', 'a', 'b'),
-           parameters = vector(mode = "list", length = 5),
+           output_names = list('S', 'E', 'I', 'R', 'Incidence'),
+           parameter_names = list('S0', 'E0', 'I0', 'R0', 'a', 'b', 'c'),
+           parameters = vector(mode = "list", length = 7),
            n_age_categories = NA_real_
 
          )
@@ -39,23 +39,27 @@ setClass("age_model",
 setGeneric("get_parameters", function(object) standardGeneric("get_parameters"))
 setGeneric(
   "set_parameters",
-  function(object, S0, I0, R0, a, b){
+  function(object, S0, E0, I0, R0, a, b, c){
     standardGeneric("set_parameters")
   })
 setMethod("get_parameters", "age_model", function(object) object@parameters)
 setMethod(
   "set_parameters", "age_model",
-  function(object, S0, I0, R0, a, b) {
+  function(object, S0, E0, I0, R0, a, b, c) {
+    # check that ICs are valid
+    if (sum(S0, E0, I0, R0) != 1) {
+      stop("Invalid initial conditions. Must add up to 1.")
+    }
 
     #create list of parameter values
-    params <- list(S0, I0, R0, a, b)
+    params <- list(S0, E0, I0, R0, a, b, c)
 
     #add names to each value
     names(params) = object@parameter_names
 
     #raise errors if age category dimensions do not match initial state vectors
     #also raise errors if initial state and parameter values are not doubles
-    for (p in list('S0', 'I0', 'R0')){
+    for (p in list('S0', 'E0', 'I0', 'R0')){
       if(length(params[[p]]) != object@n_age_categories){
         stop(glue('Wrong number of age groups for {p}
               compartments.'))}
@@ -64,7 +68,7 @@ setMethod(
     }
 
     #check format of parameters a and b
-    if(any(length(a) != 1 | length(b) != 1)){
+    if(any(length(a) != 1 | length(b) != 1 | length(c) != 1)){
       stop('The rates of change between compartments are 1-dimensional.')
     }
 
@@ -92,12 +96,14 @@ setMethod(
 
     #set initial state vector
     state <- c(S = get_parameters(object)$S0,
+               E = get_parameters(object)$E0,
                I = get_parameters(object)$I0,
                R = get_parameters(object)$R0)
 
     #set parameters vector
     parameters <- c(a = get_parameters(object)$a,
-                    b = get_parameters(object)$b)
+                    b = get_parameters(object)$b,
+                    c = get_parameters(object)$c)
 
     #function for RHS of ode system
     right_hand_side <- function(t, state, parameters) {
@@ -106,14 +112,16 @@ setMethod(
         {
           age <- object@n_age_categories
           S <- state[1:age]
-          I <- state[(age+1):(2*age)]
-          R <- state[(2*age+1):(3*age)]
+          E <- state[(age+1):(2*age)]
+          I <- state[(2*age+1):(3*age)]
+          R <- state[(3*age+1):(4*age)]
           # rate of change
           dS <- -a*S*I
-          dI <- a*S*I - b*I
-          dR <- b*I
+          dE <- a*S*I - b*E
+          dI <- b*E - c*I
+          dR <- c*I
           # return the rate of change
-          list(c(dS, dI, dR))
+          list(c(dS, dE, dI, dR))
         })
     }
 
@@ -126,6 +134,7 @@ setMethod(
 
 #test case for creating an instance of the age_model class
 my_model <- new("age_model", name = "my_model", n_age_categories = 2)
-my_model <- set_parameters(my_model, c(1, 1), c(1, 0.5), c(0, 0), 1, 0.5)
+my_model <- set_parameters(my_model, c(0.4, 0.4), c(0, 0), c(0.05, 0.15),
+                           c(0, 0), 1, 0.5, 0.5)
 get_parameters(my_model)
 simulate(my_model, seq(0, 10, by = 1))
