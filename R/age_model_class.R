@@ -196,4 +196,4 @@ my_model <- new('age_model', name = 'my_model', n_age_categories = 2)
 my_model <- set_parameters(my_model, c(0.4, 0.4), c(0, 0), c(0.05, 0.15),
                            c(0, 0), 1, 0.5, 0.5)
 get_parameters(my_model)
-simulate(my_model)
+simulate(my_model, seq(0, 20, by = 0.1))
