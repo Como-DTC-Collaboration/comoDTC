@@ -8,7 +8,7 @@ library(glue)
 #parameters: named list containing parameters of the model. initial values for
 #each compartment, S0, I0, R0. other parameters: beta, kappa, gamma
 #of age catergoreis
-setClass("age_model",
+setClass('age_model',
          #slots
          slots = c(
            name = 'character',
@@ -36,19 +36,19 @@ setClass("age_model",
 #N.B. this is not an S4 method, when I tried to use such a method I was unable
 #to assign slots of the object successfully.
 #function returns the age_model object with parameters slot assigned
-setGeneric("get_parameters", function(object) standardGeneric("get_parameters"))
+setGeneric('get_parameters', function(object) standardGeneric('get_parameters'))
 setGeneric(
-  "set_parameters",
+  'set_parameters',
   function(object, S0, E0, I0, R0, a, b, c){
-    standardGeneric("set_parameters")
+    standardGeneric('set_parameters')
   })
-setMethod("get_parameters", "age_model", function(object) object@parameters)
+setMethod('get_parameters', 'age_model', function(object) object@parameters)
 setMethod(
-  "set_parameters", "age_model",
+  'set_parameters', 'age_model',
   function(object, S0, E0, I0, R0, a, b, c) {
     # check that ICs are valid
     if (sum(S0, E0, I0, R0) != 1) {
-      stop("Invalid initial conditions. Must add up to 1.")
+      stop('Invalid initial conditions. Must add up to 1.')
     }
 
     #create list of parameter values
@@ -81,18 +81,19 @@ setMethod(
 #age_model class specific functions
 
 #Generic for function which solves system of odes
-setGeneric(name = "simulate",
+setGeneric(name = 'simulate',
            def = function(object, times){
-             standardGeneric("simulate")
+             standardGeneric('simulate')
            }
 )
 #set class specific method to numerically solve odes
 setMethod(
-  "simulate", "age_model",
+  'simulate', 'age_model',
   function(object, times) {
     if(!is.double(times)){
       stop('Evaluation times of the model storage format must be a vector.')
     }
+    age <- object@n_age_categories
 
     #set initial state vector
     state <- c(S = get_parameters(object)$S0,
@@ -110,7 +111,6 @@ setMethod(
       with(
         as.list(c(state, parameters)),
         {
-          age <- object@n_age_categories
           S <- state[1:age]
           E <- state[(age+1):(2*age)]
           I <- state[(2*age+1):(3*age)]
@@ -126,15 +126,23 @@ setMethod(
     }
 
     #call ode solver
-    output <- ode(
+    out <- ode(
       y = state, times = times, func = right_hand_side, parms = parameters)
-
+    
+    output <- as.data.frame.array(out)
+    # compute incidence number
+    total_inf <- output[, (2*age+2):(3*age+1)] + output[, (3*age+2):(4*age+1)]
+    n_inc <- rbind(rep(0, age),
+                   total_inf[2:nrow(total_inf),]-total_inf[1:nrow(total_inf)-1,]
+                   )
+    names(n_inc) <- 1:age
+    output$Incidence <- n_inc
     return(output)
   })
 
 #test case for creating an instance of the age_model class
-my_model <- new("age_model", name = "my_model", n_age_categories = 2)
+my_model <- new('age_model', name = 'my_model', n_age_categories = 2)
 my_model <- set_parameters(my_model, c(0.4, 0.4), c(0, 0), c(0.05, 0.15),
                            c(0, 0), 1, 0.5, 0.5)
 get_parameters(my_model)
-simulate(my_model, seq(0, 10, by = 1))
+output<-simulate(my_model, seq(0, 10, by = 1))
