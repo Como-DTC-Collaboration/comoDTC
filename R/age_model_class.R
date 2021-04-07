@@ -3,13 +3,20 @@ library(deSolve)
 library(glue)
 library(ggplot2)
 
-#define the age_model class.
-#Slots of this class are as follows:
-#name: character representing name of model
-#parameters: named list containing parameters of the model. initial values for
-#each compartment, S0, I0, R0. other parameters: beta, kappa, gamma
-#of age catergoreis
 setClass('age_model',
+         #' Defines an age-structured simple SEIR model.
+         #' Slots of this class are as follows:
+         #' 1. `name` character representing name of model
+         #' 2. `output_names` names of the compartments which are used by the
+         #'     model.
+         #' 3. `parameter_names` names of the initial conditions and parameters
+         #'     which are used by the model.
+         #' 4. `parameters` named list containing parameters of the model.
+         #'     Initial values for each compartment, S0, E0, I0, R0.
+         #'     Other parameters: a, b, c which represent the rates of changes
+         #'     between the compartments.
+         #' 5. `n_age_categories` number of age categories.
+
          #slots
          slots = c(
            name = 'character',
@@ -31,22 +38,35 @@ setClass('age_model',
          )
 )
 
-#define function that assigns the parameters of an age_model object
-#inputs are: object - the age model object
-#S0, I0, R0, beta, kappa, gamma: chosen values for each of the parameters
-#N.B. this is not an S4 method, when I tried to use such a method I was unable
-#to assign slots of the object successfully.
-#function returns the age_model object with parameters slot assigned
 setGeneric('get_parameters', function(object) standardGeneric('get_parameters'))
+
+setMethod(
+  'get_parameters', 'age_model',
+  function(object){
+    #' Retrieves parameters for an age-structured simple SEIR model.
+
+    return(object@parameters)})
+
 setGeneric(
   'set_parameters',
-  function(object, S0, E0, I0, R0, a, b, c){
+  function(object, S0, E0, I0, R0, a = 1, b = 1, c = 1){
     standardGeneric('set_parameters')
   })
-setMethod('get_parameters', 'age_model', function(object) object@parameters)
+
 setMethod(
   'set_parameters', 'age_model',
   function(object, S0, E0, I0, R0, a, b, c) {
+    #' Sets parameters for an age-structured simple SEIR model.
+    #' 
+    #' Default parameters a = 1, b = 1 and c = 1.
+    #' If the initial conditions provided to do not sum to 1 or of different
+    #' sizes compared to the number of age groups, an error is thrown.
+    #' 
+    #' @param params parameters of the model: a, b, and c.
+    #' @param ICs initial conditions of the model, must add to 1.
+    #' 
+    #' @return updated version of the age-structured SEIR model.
+    
     # check that ICs are valid
     if (sum(S0, E0, I0, R0) != 1) {
       stop('Invalid initial conditions. Must add up to 1.')
@@ -79,18 +99,30 @@ setMethod(
     return(object)
   })
 
-#age_model class specific functions
-
-#Generic for function which solves system of odes
 setGeneric(name = 'simulate',
-           def = function(object, times, is_plot=TRUE){
+           def = function(object, times = seq(0, 100, by = 0.1), is_plot=TRUE){
              standardGeneric('simulate')
            }
 )
-#set class specific method to numerically solve odes
+
 setMethod(
   'simulate', 'age_model',
-  function(object, times, is_plot=TRUE) {
+  function(object, times, is_plot) {
+    #' Solves an age-structured simple SEIR model.
+    #' 
+    #' Default time series is seq(0, 100, by = 0.1).
+    #' This function relies on the packages deSolve and ggplot2. 
+    #' This function creates a plot of the variables over time and returns a
+    #' vectors of the incidence numbers for each age group.
+    #'
+    #' @param times (vector) time sequence over which to solve the model.
+    #'        Must be of the form seq(t_start,t_end,by=t_step).
+    #' @param is_plot (boolean) whether plots for the compartments for the
+    #'        different age groups are drawn.
+    #'
+    #' @return data frame of time and outputs with incidence numbers for each
+    #'         age group.
+
     if(!is.double(times)){
       stop('Evaluation times of the model storage format must be a vector.')
     }
@@ -164,4 +196,4 @@ my_model <- new('age_model', name = 'my_model', n_age_categories = 2)
 my_model <- set_parameters(my_model, c(0.4, 0.4), c(0, 0), c(0.05, 0.15),
                            c(0, 0), 1, 0.5, 0.5)
 get_parameters(my_model)
-output<-simulate(my_model, seq(0, 10, by = 1))
+simulate(my_model)
