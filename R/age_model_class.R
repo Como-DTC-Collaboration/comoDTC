@@ -1,6 +1,7 @@
 library(methods)
 library(deSolve)
 library(glue)
+library(ggplot2)
 
 #define the age_model class.
 #Slots of this class are as follows:
@@ -82,14 +83,14 @@ setMethod(
 
 #Generic for function which solves system of odes
 setGeneric(name = 'simulate',
-           def = function(object, times){
+           def = function(object, times, is_plot=TRUE){
              standardGeneric('simulate')
            }
 )
 #set class specific method to numerically solve odes
 setMethod(
   'simulate', 'age_model',
-  function(object, times) {
+  function(object, times, is_plot=TRUE) {
     if(!is.double(times)){
       stop('Evaluation times of the model storage format must be a vector.')
     }
@@ -130,14 +131,32 @@ setMethod(
       y = state, times = times, func = right_hand_side, parms = parameters)
     
     output <- as.data.frame.array(out)
+
+    if(is_plot == TRUE){
+      col <- c('cS' = 'blue', 'cE' = 'green', 'cI' = 'yellow', 'cR' = 'red')
+      for(a in 1:age){
+        out_df <- output[,c(1, a+1, age+a+1, 2*age+a+1, 3*age+a+1)]
+        names(out_df) <- c('time', 'S', 'E', 'I', 'R')
+        SEIRplot <- ggplot(out_df, aes(x=time)) + 
+          geom_line(aes(y=S, color = 'cS'), size = 1.5) +
+          geom_line(aes(y=E, color = 'cE'), size = 1.5) +
+          geom_line(aes(y=I, color = 'cI'), size = 1.5) +
+          geom_line(aes(y=R, color = 'cR'), size = 1.5) +
+          labs(x = 'time', y = 'fraction of the population',
+               title = glue('SEIR model for age group {a}')) +
+          theme(legend.position = 'right') +
+          scale_color_manual(values = col)
+        print(SEIRplot)
+      }
+    }
+    
     # compute incidence number
     total_inf <- output[, (2*age+2):(3*age+1)] + output[, (3*age+2):(4*age+1)]
     n_inc <- rbind(rep(0, age),
                    total_inf[2:nrow(total_inf),]-total_inf[1:nrow(total_inf)-1,]
                    )
-    names(n_inc) <- 1:age
-    output$Incidence <- n_inc
-    return(output)
+    output$Incidence <- unname(as.matrix(n_inc))
+      return(output)
   })
 
 #test case for creating an instance of the age_model class
