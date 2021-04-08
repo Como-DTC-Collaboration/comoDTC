@@ -167,8 +167,8 @@ setMethod("ode_simulate", signature(object ='model_symptome'),
       with(
         as.list(c(pop_groups, params)),
         {
-          dSdt <- -lam*S*I + omega*R
-          dEdt <- lam*S*I - gamma*E 
+          dSdt <- -lam*S*(I+HA+ICUA+VentA) + omega*R
+          dEdt <- lam*S*(I+HA+ICUA+VentA) - gamma*E 
           dIdt <- -nu$nui*I + (1.0-ihr)*gamma*E # - ratetestI*I
           dHAdt <- gamma*ihr*(1-(phs%>%unlist%>%sum))*E - nu$nuhsa*HA
           dICUAdt <- gamma*ihr*phs$phs_icua*E - nu$nu_icua*ICUA
