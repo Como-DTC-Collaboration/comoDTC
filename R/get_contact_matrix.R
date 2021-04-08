@@ -17,17 +17,18 @@
 #' contact between different respondents' age groups (rows) with age groups of
 #' people they come in contact with (column) in a given social setting e.g.
 #' at work or at school.
-#' @param n_5yr_agegroups_popstruc Number of 5 year age groups in the population
-#'  structure data. These ranges start with 0-4yrs and continue with 5 year gaps
-#'  up until the last category of 100+ years old. Default value set to 21.
 #'
 #' @return A square contact matrix for the specified country with dimension
 #' equal to \code{n_5yr_agegroups_popstruc}.
 #'
-get_contact_matrix <- function(country, contact_type
-                               , n_5yr_agegroups_popstruc = 21) {
+get_contact_matrix <- function(country, contact_type) {
   #choose contact matrix for given country
   c <- contact_type[[country]] %>% as.matrix()
+
+  #Set the number of 5 year age groups in the population to 21.
+  #These ranges start with 0-4yrs and continue with 5 year gaps
+  #up until the last category of 100+ years old.
+  n_5yr_agegroups_popstruc = 21
 
   #create a square matrix of 0s with dimension n_5yr_agegroups_popstruc
   contact <- matrix(0, nrow = n_5yr_agegroups_popstruc,
