@@ -100,7 +100,7 @@ setMethod(
   })
 
 setGeneric(name = 'simulate',
-           def = function(object, times = seq(0, 100, by = 0.1), is_plot=TRUE){
+           def = function(object, times = seq(0, 100, by = 1), is_plot=TRUE){
              standardGeneric('simulate')
            }
 )
@@ -110,14 +110,14 @@ setMethod(
   function(object, times, is_plot) {
     #' Solves an age-structured simple SEIR model.
     #' 
-    #' Default time series is seq(0, 100, by = 0.1).
+    #' Default time series is seq(0, 100, by = 1).
     #' This function relies on the packages deSolve and ggplot2. 
     #' This function creates a plot of the variables over time and returns a
     #' vectors of the incidence numbers for each age group.
     #'
     #' @param times (vector) time sequence over which to solve the model.
     #'        Must be of the form seq(t_start,t_end,by=t_step).
-    #' @param is_plot (boolean) whether plots for the compartments for the
+    #' @param is_plot (logical) whether plots for the compartments for the
     #'        different age groups are drawn.
     #'
     #' @return data frame of time and outputs with incidence numbers for each
@@ -125,6 +125,9 @@ setMethod(
 
     if(!is.double(times)){
       stop('Evaluation times of the model storage format must be a vector.')
+    }
+    if(!is.logical(is_plot)){
+      stop('Trigger for plotting must be logical.')
     }
     age <- object@n_age_categories
 
@@ -188,12 +191,7 @@ setMethod(
                    total_inf[2:nrow(total_inf),]-total_inf[1:nrow(total_inf)-1,]
                    )
     output$Incidence <- unname(as.matrix(n_inc))
-      return(output)
+    
+    # Return only at integer times
+    return(output)
   })
-
-#test case for creating an instance of the age_model class
-my_model <- new('age_model', name = 'my_model', n_age_categories = 2)
-my_model <- set_parameters(my_model, c(0.4, 0.4), c(0, 0), c(0.05, 0.15),
-                           c(0, 0), 1, 0.5, 0.5)
-get_parameters(my_model)
-simulate(my_model, seq(0, 20, by = 0.1))
