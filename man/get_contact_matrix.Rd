@@ -4,32 +4,30 @@
 \alias{get_contact_matrix}
 \title{Create a contact matrix}
 \usage{
-get_contact_matrix(country, contact_type, n_5yr_agegroups_popstruc)
+get_contact_matrix(country, contact_type)
 }
 \arguments{
 \item{country}{String representing the country for which the contact matrix
 will be created. Naming conventions for countries must be in line with those
 used in input excel file.}
 
-\item{contact_type}{A loaded 16x16 matrix representing the contact between
-different age groups in a given social setting e.g. contact_work gives
-contact matrix for the work place.}
-
-\item{n_5yr_agegroups_popstruc}{Number of 5 year age groups in the population
-structure data. these ranges start with 0-4yrs and continue with 5 year gaps
-up until the last catergory of 100+ years old.}
+\item{contact_type}{A named list of 16x16 matrices. Names represent countries
+where contact matrices are available. Each contact matrix represents the
+contact between different respondents' age groups (rows) with age groups of
+people they come in contact with (column) in a given social setting e.g.
+at work or at school.}
 }
 \value{
 A square contact matrix for the specified country with dimension
-equal to \code{n_5yr_agegroups_popstruc}.
+equal to 21x21.
 }
 \description{
 Function that loads and processes a contact matrix for use in the CoMo model
-ode solver. This function carries out a dimension change on the input
+ODE solver. This function carries out a dimension change on the input
 contact matrix (from 16x16 to 21x21) to allow for the larger number of
-population catergories provided by the population data
+population categories provided by the population data
 (0-100+ years in 5 year intervals) compared to the contact data (0-80 in 5
 year intervals). This is done by repeating entries in the contact data
 corresponding to the oldest group (75-80 years) for the last population data
-age ranges (i.e. all 5 year catergories for 80+ years).
+age ranges (i.e. all 5 year categories for 80+ years).
 }

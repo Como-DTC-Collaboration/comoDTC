@@ -19,7 +19,7 @@
 #' at work or at school.
 #'
 #' @return A square contact matrix for the specified country with dimension
-#' equal to \code{n_5yr_agegroups_popstruc}.
+#' equal to 21x21.
 #'
 get_contact_matrix <- function(country, contact_type) {
   #choose contact matrix for given country
