@@ -21,6 +21,7 @@
 #' @return A square contact matrix for the specified country with dimension
 #' equal to 21x21.
 #'
+#' @importFrom dplyr %>%
 get_contact_matrix <- function(country, contact_type) {
   #choose contact matrix for given country
   c <- contact_type[[country]] %>% as.matrix()

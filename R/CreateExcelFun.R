@@ -10,7 +10,9 @@
 #' data should be generated
 #'
 #' @return name of the excel file that contains the country specific data.
+#' @importFrom XLConnect XLC
 create_excel <- function(country) {
+
   # check of argument is correct
   if (missing(country) || !any(countries_demog == country)) {
     print("Country not specified, or not recognized. Using United Kingdom.")

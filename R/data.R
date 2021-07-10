@@ -95,3 +95,5 @@
 #'
 #' @format list of chr
 "countries_demog"
+
+globalVariables(c("contact_home", "contact_school", "contact_work", "contact_other", "cases", "population", "countries_demog"))
